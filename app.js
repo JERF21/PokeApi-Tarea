@@ -47,6 +47,7 @@ function mostrarPokemon(pokemonList) {
   pokemonList.forEach((pokemon) => {
     const pokemonDiv = document.createElement("div");
     pokemonDiv.className = "pokemon-item";
+    pokemonDiv.onclick = () => detallePokemon(pokemon);
 
     const pokemonName = document.createElement("h3");
     pokemonName.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
@@ -83,4 +84,22 @@ function actPaginacion() {
     nextButton.onclick = () => tipoPokemon(pokemonType, currentPage + 1);
     paginationDiv.appendChild(nextButton);
   }
+}
+
+
+/**mostrar detalles del pokemon */
+function detallePokemon(pokemon) {
+  const detailsDiv = document.getElementById("pokemonDetails");
+  detailsDiv.innerHTML = `
+    <h2>${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
+    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+    <p><strong>Altura:</strong> ${pokemon.height / 10} m</p>
+    <p><strong>Peso:</strong> ${pokemon.weight / 10} kg</p>
+    <p><strong>Habilidades:</strong> ${pokemon.abilities.map(ability => ability.ability.name).join(", ")}</p>
+    <p><strong>Estadísticas:</strong></p>
+    <ul>
+      ${pokemon.stats.map(stat => `<li>${stat.stat.name}: ${stat.base_stat}</li>`).join("")}
+    </ul>
+  `;
+  detailsDiv.style.display = "block";
 }
