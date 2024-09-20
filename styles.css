@@ -95,5 +95,5 @@ body {
 .selected {
   background-color: #4CAF50; /* Cambia esto al color que prefieras */
   color: white; /* Color del texto cuando está seleccionado */
-  border: 5px solid #000000; /* Opcional: un borde para resaltar más */
+  border: 3px solid #000000; /* Opcional: un borde para resaltar más */
 }

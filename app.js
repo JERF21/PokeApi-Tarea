@@ -15,10 +15,16 @@ fairy: "Hada", normal: "Normal",
 function buscarPokemon() {
   const name = document.getElementById("pokemonName").value.toLowerCase();
   if (name) {
-    fetch(`${API_URL}/pokemon/${name}`)
-      .then((response) => response.json())
-      .then((pokemon) => mostrarPokemon([pokemon]))
-      .catch((error) => alert("Pokemon no encontrado, escríbalo correctamente"));
+    fetch(`${API_URL}/pokemon?limit=1000`)
+      .then(response => response.json())
+      .then(data => {
+        const pokemonList = data.results.filter(pokemon => pokemon.name.includes(name));
+        const pokemonPromises = pokemonList.map(pokemon => fetch(pokemon.url).then(res => res.json()));
+
+        return Promise.all(pokemonPromises);
+      })
+      .then(pokemon => mostrarPokemon(pokemon))
+      .catch(error => alert("No se encontraron Pokémon que coincidan con la búsqueda."));
   }
 }
 
@@ -34,8 +40,6 @@ function seleccionarTipo(type, button) {
 
   if (selectedTypes.length > 0) {
     buscarPokemonPorTipos(selectedTypes);
-  } else {
-    alert("Selecciona al menos un tipo.");
   }
 }
 
